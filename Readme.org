@@ -1,0 +1,27 @@
+* Commentary
+This library contains various functions that are used in some of my other libraries.
+* Functions & macros
+** Internal Functions
+
+*** command-key-description
+=(command-key-description CMD &optional KEYMAPS SEP)=
+
+Return description of key-sequence for CMD.
+The KEYMAPS can be a single keymap/variable or list of keymaps/variables to search for CMD,
+otherwise =overriding-local-map= is searched.
+By default the first keybinding will be returned, but if SEP is supplied it will be used
+to seperate the descriptions of all key-sequences bound to CMD.
+If there is no key-sequence for command then a string in the form "M-x CMD" will be returned.
+
+*** eval-keymap
+=(eval-keymap KEYMAP)=
+
+Return the keymap pointed to by KEYMAP, or KEYMAP itself if it is a keymap.
+
+*** keymaps-in-file
+=(keymaps-in-file FILE &optional EVAL)=
+
+Return a list of keymaps and variables pointing to keymaps that are used in FILE.
+If EVAL is non-nil eval any variables in the returned list.
+
+
