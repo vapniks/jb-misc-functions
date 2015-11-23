@@ -112,7 +112,16 @@ If there is no key-sequence for command then a string in the form \"M-x CMD\" wi
           (key-description key))
       (format "M-x %s" cmd))))
 
-
+(defun remove-unreadable (tree)
+  "Remove unreadable objects from TREE.
+Return value has the same structure as TREE but with all unreadable objects removed."
+  (cl-subst-if nil (lambda (x)
+		     (condition-case err
+			 (and (atom x)
+			      (read (format "%S" x))
+			      nil)
+		       (error t)))
+	       tree))
 
 (provide 'jb-misc-functions)
 
