@@ -110,8 +110,8 @@ If there is no key-sequence for command then a string in the form \"M-x CMD\" wi
 		       (if (listp keymaps)
 			   ;; Note: don't bother trying to put this function in
 			   ;; a cl-flet form, or you won't be able to do the mapcar
-			   (mapcar 'eval-keymap keymaps)
-			 (eval-keymap keymaps))))
+			   (mapcar 'jb-eval-keymap keymaps)
+			 (jb-eval-keymap keymaps))))
 	 (key (where-is-internal cmd (or keymaps2 overriding-local-map) (unless sep t))))
     (if key
         (if sep
