@@ -1,8 +1,4 @@
-;;; jb-misc-functions.el --- Miscellaneous functions for use with my other libraries
-
-;; Change Log:
-;; 19-Nov-2015    Joe Bloggs  
-;;    Initial code
+;;; jb-misc-functions.el --- Miscellaneous functions for keymaps & other things
 
 ;; Filename: jb-misc-functions.el
 ;; Description: Miscellaneous functions for use with my other libraries
@@ -10,10 +6,10 @@
 ;; Maintainer: Joe Bloggs <vapniks@yahoo.com>
 ;; Copyleft (Ↄ) 2015, Joe Bloggs, all rites reversed.
 ;; Created: 2015-11-18 23:42:15
-;; Version: 20151119.6
-;; Last-Updated: Thu Nov 19 01:03:58 2015
+;; Version: 20151124.2128
+;; Last-Updated: Wed Dec  2 13:46:22 2015
 ;;           By: Joe Bloggs
-;;     Update #: 4
+;;     Update #: 16
 ;; URL: https://github.com/vapniks/jb-misc-functions
 ;; Keywords: internal
 ;; Compatibility: GNU Emacs 24.5.1
@@ -45,11 +41,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Commentary: 
-;;
-;; Bitcoin donations gratefully accepted: 1ArFina3Mi8UDghjarGqATeBgXRDWrsmzo
-;;
-;; Miscellaneous functions for use with my other libraries
+
+
 ;; 
+;; This library contains various functions that are used in some of my other libraries.
+;; So far it contains mostly functions for doing things with keys and keymaps.
+;; 
+
 ;;;;;;;;
 
 ;;; Installation:
@@ -64,6 +62,12 @@
 ;;
 ;; (require 'jb-misc-functions)
 
+;;; History:
+;; 24-Nov-2015    Joe Bloggs  
+;;    Last-Updated: Tue Nov 24 21:27:57 2015 #5 (Joe Bloggs)
+;;    Add remove-unreadable
+
+
 ;;; Require
 (require 'cl-lib)
 (require 'keymap-utils)
@@ -71,11 +75,13 @@
 
 ;;; Code:
 
+;;;###autoload
 (defun eval-keymap (keymap)
   "Return the keymap pointed to by KEYMAP, or KEYMAP itself if it is a keymap."
   (cond ((kmu-keymap-variable-p keymap) (eval keymap))
         ((keymapp keymap) keymap)))
 
+;;;###autoload
 (defun keymaps-in-file (file &optional eval)
   "Return a list of keymaps and variables pointing to keymaps that are used in FILE.
 If EVAL is non-nil eval any variables in the returned list."
@@ -92,6 +98,7 @@ If EVAL is non-nil eval any variables in the returned list."
                        (kmu-keymap-variable-p x)))
        (cl-remove-duplicates (-flatten sexps))))))
 
+;;;###autoload
 (defun command-key-description (cmd &optional keymaps sep)
   "Return description of key-sequence for CMD.
 The KEYMAPS can be a single keymap/variable or list of keymaps/variables to search for CMD,
@@ -112,6 +119,7 @@ If there is no key-sequence for command then a string in the form \"M-x CMD\" wi
           (key-description key))
       (format "M-x %s" cmd))))
 
+;;;###autoload
 (defun remove-unreadable (tree)
   "Remove unreadable objects from TREE.
 Return value has the same structure as TREE but with all unreadable objects removed."

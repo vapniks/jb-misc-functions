@@ -1,8 +1,8 @@
 * Commentary
 This library contains various functions that are used in some of my other libraries.
+So far it contains mostly functions for doing things with keys and keymaps.
 * Functions & macros
 ** Internal Functions
-
 *** command-key-description
 =(command-key-description CMD &optional KEYMAPS SEP)=
 
@@ -23,5 +23,11 @@ Return the keymap pointed to by KEYMAP, or KEYMAP itself if it is a keymap.
 
 Return a list of keymaps and variables pointing to keymaps that are used in FILE.
 If EVAL is non-nil eval any variables in the returned list.
+
+*** remove-unreadable
+=(remove-unreadable TREE)=
+
+Remove unreadable objects from TREE.
+Return value has the same structure as TREE but with all unreadable objects removed.
 
 
