@@ -3,31 +3,20 @@ This library contains various functions that are used in some of my other librar
 So far it contains mostly functions for doing things with keys and keymaps.
 * Functions & macros
 ** Internal Functions
-*** command-key-description
-=(command-key-description CMD &optional KEYMAPS SEP)=
+*** jb-command-key-description
+jb-command-key-description is an alias for =jb-command-key-description=,
+which is not defined.  Please make a bug report.
 
-Return description of key-sequence for CMD.
-The KEYMAPS can be a single keymap/variable or list of keymaps/variables to search for CMD,
-otherwise =overriding-local-map= is searched.
-By default the first keybinding will be returned, but if SEP is supplied it will be used
-to seperate the descriptions of all key-sequences bound to CMD.
-If there is no key-sequence for command then a string in the form "M-x CMD" will be returned.
+*** jb-eval-keymap
+jb-eval-keymap is an alias for =jb-eval-keymap=,
+which is not defined.  Please make a bug report.
 
-*** eval-keymap
-=(eval-keymap KEYMAP)=
+*** jb-keymaps-in-file
+jb-keymaps-in-file is an alias for =jb-keymaps-in-file=,
+which is not defined.  Please make a bug report.
 
-Return the keymap pointed to by KEYMAP, or KEYMAP itself if it is a keymap.
-
-*** keymaps-in-file
-=(keymaps-in-file FILE &optional EVAL)=
-
-Return a list of keymaps and variables pointing to keymaps that are used in FILE.
-If EVAL is non-nil eval any variables in the returned list.
-
-*** remove-unreadable
-=(remove-unreadable TREE)=
-
-Remove unreadable objects from TREE.
-Return value has the same structure as TREE but with all unreadable objects removed.
+*** jb-remove-unreadable
+jb-remove-unreadable is an alias for =jb-remove-unreadable=,
+which is not defined.  Please make a bug report.
 
 
