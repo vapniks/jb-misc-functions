@@ -4,19 +4,35 @@ So far it contains mostly functions for doing things with keys and keymaps.
 * Functions & macros
 ** Internal Functions
 *** jb-command-key-description
-jb-command-key-description is an alias for =jb-command-key-description=,
-which is not defined.  Please make a bug report.
+jb-command-key-description is a Lisp function.
+
+=(jb-command-key-description CMD &optional KEYMAPS SEP)=
+
+Return description of key-sequence for CMD.
+The KEYMAPS can be a single keymap/variable or list of keymaps/variables to search for CMD,
+otherwise =overriding-local-map= is searched.
+By default the first keybinding will be returned, but if SEP is supplied it will be used
+to seperate the descriptions of all key-sequences bound to CMD.
+If there is no key-sequence for command then a string in the form "M-x CMD" will be returned.
 
 *** jb-eval-keymap
-jb-eval-keymap is an alias for =jb-eval-keymap=,
-which is not defined.  Please make a bug report.
+=(jb-eval-keymap KEYMAP)=
+
+Return the keymap pointed to by KEYMAP, or KEYMAP itself if it is a keymap.
 
 *** jb-keymaps-in-file
-jb-keymaps-in-file is an alias for =jb-keymaps-in-file=,
-which is not defined.  Please make a bug report.
+jb-keymaps-in-file is a Lisp function.
+
+=(jb-keymaps-in-file FILE &optional EVAL)=
+
+Return a list of keymaps and variables pointing to keymaps that are used in FILE.
+If EVAL is non-nil eval any variables in the returned list.
 
 *** jb-remove-unreadable
-jb-remove-unreadable is an alias for =jb-remove-unreadable=,
-which is not defined.  Please make a bug report.
+jb-remove-unreadable is a Lisp function.
 
+=(jb-remove-unreadable TREE)=
+
+Remove unreadable objects from TREE.
+Return value has the same structure as TREE but with all unreadable objects removed.
 

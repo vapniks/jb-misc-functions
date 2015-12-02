@@ -7,9 +7,9 @@
 ;; Copyleft (Ↄ) 2015, Joe Bloggs, all rites reversed.
 ;; Created: 2015-11-18 23:42:15
 ;; Version: 20151124.2128
-;; Last-Updated: Wed Dec  2 22:49:04 2015
+;; Last-Updated: Wed Dec  2 22:51:07 2015
 ;;           By: Joe Bloggs
-;;     Update #: 18
+;;     Update #: 19
 ;; URL: https://github.com/vapniks/jb-misc-functions
 ;; Keywords: internal
 ;; Compatibility: GNU Emacs 24.5.1
