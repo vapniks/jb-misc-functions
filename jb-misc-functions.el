@@ -7,13 +7,13 @@
 ;; Copyleft (Ↄ) 2015, Joe Bloggs, all rites reversed.
 ;; Created: 2015-11-18 23:42:15
 ;; Version: 20151124.2128
-;; Last-Updated: Wed Dec  2 22:51:07 2015
+;; Last-Updated: Thu Dec  3 02:19:31 2015
 ;;           By: Joe Bloggs
-;;     Update #: 19
+;;     Update #: 21
 ;; URL: https://github.com/vapniks/jb-misc-functions
 ;; Keywords: internal
 ;; Compatibility: GNU Emacs 24.5.1
-;; Package-Requires:  ((dash "20151021.113") (keymap-utils "20151030.326"))
+;; Package-Requires:  ((dash "20151021.113") (keymap-utils "20151030.326") (cl-lib "0.5"))
 ;;
 ;; Features that might be required by this library:
 ;;
@@ -110,8 +110,8 @@ If there is no key-sequence for command then a string in the form \"M-x CMD\" wi
 		       (if (listp keymaps)
 			   ;; Note: don't bother trying to put this function in
 			   ;; a cl-flet form, or you won't be able to do the mapcar
-			   (mapcar 'eval-keymap keymaps)
-			 (eval-keymap keymaps))))
+			   (mapcar 'jb-eval-keymap keymaps)
+			 (jb-eval-keymap keymaps))))
 	 (key (where-is-internal cmd (or keymaps2 overriding-local-map) (unless sep t))))
     (if key
         (if sep

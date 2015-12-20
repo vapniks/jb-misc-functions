@@ -3,6 +3,7 @@ This library contains various functions that are used in some of my other librar
 So far it contains mostly functions for doing things with keys and keymaps.
 * Functions & macros
 ** Internal Functions
+
 *** jb-command-key-description
 jb-command-key-description is a Lisp function.
 
@@ -35,4 +36,3 @@ jb-remove-unreadable is a Lisp function.
 
 Remove unreadable objects from TREE.
 Return value has the same structure as TREE but with all unreadable objects removed.
-
