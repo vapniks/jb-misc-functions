@@ -133,7 +133,8 @@ Return value has the same structure as TREE but with all unreadable objects remo
 
 (defun jb-defined-symbols (&optional filebuf)
   "Return all top-level symbols (functions, variables, macros) defined in file or buffer FILEBUF.
-If FILEBUF is nil then the current buffer will be searched."
+If FILEBUF is nil then the current buffer will be searched.
+If called interactively with a prefix arg then a file will be prompted for, otherwise a buffer."
   (interactive (list (if current-prefix-arg
 			 (read-file-name "Lisp file: " nil nil t)
 		       (get-buffer (read-buffer "Buffer: ")))))
