@@ -159,6 +159,13 @@ If FILEBUF is nil then the current buffer will be searched."
       (message "%d symbols defined in %s: %s" (length defs) filebuf (substring (format "%s" defs) 1 -1)))
     defs))
 
+(defun jb-make-symbols-rx (filebuf)
+  "Return a regular expression for matching symbols defined in file or buffer FILEBUF."
+  (substring-no-properties
+   (concat "\\_<"
+	   (regexp-opt (mapcar 'symbol-name (jb-defined-symbols filebuf)))
+	   "\\_>")))
+
 (provide 'jb-misc-functions)
 
 ;; (org-readme-sync)
