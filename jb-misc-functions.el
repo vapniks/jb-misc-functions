@@ -167,6 +167,7 @@ If called interactively with a prefix arg then a buffer will be prompted for, ot
 	   (regexp-opt (mapcar 'symbol-name (jb-defined-symbols filebuf)))
 	   "\\_>")))
 
+;; TODO: allow numeric prefix keys to affect to control NLINES arg of occur.
 (defun jb-symbols-occur (filebuf)
   "Find occurrences in current buffer of symbols defined in file or buffer FILEBUF.
 If called interactively with a prefix arg then a buffer will be prompted for, otherwise a file."
@@ -174,6 +175,20 @@ If called interactively with a prefix arg then a buffer will be prompted for, ot
 			 (get-buffer (read-buffer "Buffer: "))
 		       (read-file-name "Lisp file: " (car package-directory-list) nil t))))
   (occur (jb-make-symbols-rx filebuf)))
+
+(defun jb-symbols-search (filebuf &optional bound noerror count)
+  "Search the current buffer for symbols defined in file or buffer FILEBUF.
+If called interactively with a prefix arg then a buffer will be prompted for, otherwise a file.
+Other args are same as for `re-search-forward'."
+  (interactive (list (if current-prefix-arg
+			 (get-buffer (read-buffer "Buffer: "))
+		       (read-file-name "Lisp file: "
+				       (car package-directory-list) nil t))))
+  (let ((rx (jb-make-symbols-rx filebuf)))
+    (isearch-update-ring rx t)
+    (if (called-interactively-p 'interactive)
+	(isearch-resume rx t nil t rx nil)
+      (re-search-forward rx bound noerror count))))
 
 (provide 'jb-misc-functions)
 
