@@ -7,9 +7,9 @@
 ;; Copyleft (Ↄ) 2015, Joe Bloggs, all rites reversed.
 ;; Created: 2015-11-18 23:42:15
 ;; Version: 20151124.2128
-;; Last-Updated: Thu Dec  3 02:19:31 2015
+;; Last-Updated: Wed Oct  8 14:44:31 2025
 ;;           By: Joe Bloggs
-;;     Update #: 21
+;;     Update #: 22
 ;; URL: https://github.com/vapniks/jb-misc-functions
 ;; Keywords: internal
 ;; Compatibility: GNU Emacs 24.5.1
@@ -130,6 +130,34 @@ Return value has the same structure as TREE but with all unreadable objects remo
 			      nil)
 		       (error t)))
 	       tree))
+
+(defun jb-defined-symbols (&optional filebuf)
+  "Return all top-level symbols (functions, variables, macros) defined in file or buffer FILEBUF.
+If FILEBUF is nil then the current buffer will be searched."
+  (interactive (list (if current-prefix-arg
+			 (read-file-name "Lisp file: " nil nil t)
+		       (get-buffer (read-buffer "Buffer: ")))))
+  (let (defs)
+    (cl-flet ((gatherdefs nil
+		(save-excursion
+		  (goto-char (point-min))
+		  (while (re-search-forward
+			  "^(\\(defun\\|defmacro\\|defvar\\|defconst\\|define-minor-mode\\|define-derived-mode\\)\\s-+\\(\\(?:\\sw\\|\\s_\\)+\\)"
+			  nil t)
+		    (push (intern (match-string 2)) defs)))))
+      (if filebuf
+	  (if (bufferp filebuf)
+	      (with-current-buffer filebuf (gatherdefs))
+	    (if (file-exists-p filebuf)
+		(with-temp-buffer
+		  (insert-file-contents filebuf)
+		  (gatherdefs))
+	      (error "Invalid arg: %s" filebuf)))
+	(gatherdefs)))
+    (setq defs (nreverse defs))
+    (when (called-interactively-p 'any)
+      (message "%d symbols defined in %s: %s" (length defs) filebuf (substring (format "%s" defs) 1 -1)))
+    defs))
 
 (provide 'jb-misc-functions)
 
