@@ -166,6 +166,14 @@ If FILEBUF is nil then the current buffer will be searched."
 	   (regexp-opt (mapcar 'symbol-name (jb-defined-symbols filebuf)))
 	   "\\_>")))
 
+(defun jb-symbols-occur (filebuf)
+  "Find occurrences in current buffer of symbols defined in file or buffer FILEBUF.
+If called interactively with a prefix arg then a file will be prompted for, otherwise a buffer."
+  (interactive (list (if current-prefix-arg
+			 (read-file-name "Lisp file: " nil nil t)
+		       (get-buffer (read-buffer "Buffer: ")))))
+  (occur (jb-make-symbols-rx filebuf)))
+
 (provide 'jb-misc-functions)
 
 ;; (org-readme-sync)
