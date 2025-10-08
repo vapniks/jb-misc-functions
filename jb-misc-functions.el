@@ -136,7 +136,7 @@ Return value has the same structure as TREE but with all unreadable objects remo
 If FILEBUF is nil then the current buffer will be searched.
 If called interactively with a prefix arg then a file will be prompted for, otherwise a buffer."
   (interactive (list (if current-prefix-arg
-			 (read-file-name "Lisp file: " nil nil t)
+			 (read-file-name "Lisp file: " (car package-directory-list) nil t)
 		       (get-buffer (read-buffer "Buffer: ")))))
   (let (defs)
     (cl-flet ((gatherdefs nil
@@ -171,7 +171,7 @@ If called interactively with a prefix arg then a file will be prompted for, othe
   "Find occurrences in current buffer of symbols defined in file or buffer FILEBUF.
 If called interactively with a prefix arg then a file will be prompted for, otherwise a buffer."
   (interactive (list (if current-prefix-arg
-			 (read-file-name "Lisp file: " nil nil t)
+			 (read-file-name "Lisp file: " (car package-directory-list) nil t)
 		       (get-buffer (read-buffer "Buffer: ")))))
   (occur (jb-make-symbols-rx filebuf)))
 
