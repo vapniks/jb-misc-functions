@@ -132,10 +132,15 @@ Return value has the same structure as TREE but with all unreadable objects remo
 	       tree))
 
 (defun jb-prompt-lisp-code nil
-  "Prompt the user for a buffer or file containing Lisp code."
-  (list (if current-prefix-arg
-	    (get-buffer (read-buffer "Buffer: "))
-	  (read-file-name "Lisp file: " (car package-directory-list) nil t))))
+  "Prompt the user for a library, buffer or file containing Lisp code.
+With no prefix prompt for a library name, with a single C-u prefix prompt
+for a buffer, with a double C-u prefix prompt for a filepath."
+  (list (if (and current-prefix-arg
+		 (listp current-prefix-arg))
+	    (if (= (car current-prefix-arg) 4)
+		(get-buffer (read-buffer "Buffer: "))
+	      (read-file-name "Lisp file: " (car package-directory-list) nil t))
+	  (find-library-name (read-library-name)))))
 
 (defun jb-defined-symbols (&optional filebuf)
   "Return all top-level symbols (functions, variables, macros) defined in file or buffer FILEBUF.
