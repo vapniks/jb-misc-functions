@@ -171,14 +171,11 @@ If called interactively with a prefix arg then a buffer will be prompted for, ot
 	   (regexp-opt (mapcar 'symbol-name (jb-defined-symbols filebuf)))
 	   "\\_>")))
 
-;; TODO: allow numeric prefix keys to control NLINES arg of occur.
 (defun jb-symbols-occur (filebuf)
   "Find occurrences in current buffer of symbols defined in file or buffer FILEBUF.
 If called interactively with a prefix arg then a buffer will be prompted for, otherwise a file."
   (interactive (jb-prompt-lisp-code))
-  (occur (jb-make-symbols-rx filebuf)
-	 (if (numberp current-prefix-arg)
-	     (prefix-numeric-value current-prefix-arg))))
+  (occur (jb-make-symbols-rx filebuf)))
 
 (defun jb-symbols-search (filebuf &optional bound noerror count)
   "Search the current buffer for symbols defined in file or buffer FILEBUF.
