@@ -131,13 +131,17 @@ Return value has the same structure as TREE but with all unreadable objects remo
 		       (error t)))
 	       tree))
 
+(defun jb-prompt-lisp-code nil
+  "Prompt the user for a buffer or file containing Lisp code."
+  (list (if current-prefix-arg
+	    (get-buffer (read-buffer "Buffer: "))
+	  (read-file-name "Lisp file: " (car package-directory-list) nil t))))
+
 (defun jb-defined-symbols (&optional filebuf)
   "Return all top-level symbols (functions, variables, macros) defined in file or buffer FILEBUF.
 If FILEBUF is nil then the current buffer will be searched.
 If called interactively with a prefix arg then a buffer will be prompted for, otherwise a file."
-  (interactive (list (if current-prefix-arg
-			 (get-buffer (read-buffer "Buffer: "))
-		       (read-file-name "Lisp file: " (car package-directory-list) nil t))))
+  (interactive (jb-prompt-lisp-code))
   (let (defs)
     (cl-flet ((gatherdefs nil
 		(save-excursion
@@ -157,7 +161,7 @@ If called interactively with a prefix arg then a buffer will be prompted for, ot
 	(gatherdefs)))
     (setq defs (nreverse defs))
     (when (called-interactively-p 'any)
-      (message "%d symbols defined in %s: %s" (length defs) filebuf (substring (format "%s" defs) 1 -1)))
+      (message "%s: %d symbols defined in %s" (substring (format "%s" defs) 1 -1) (length defs) filebuf))
     defs))
 
 (defun jb-make-symbols-rx (filebuf)
@@ -167,23 +171,20 @@ If called interactively with a prefix arg then a buffer will be prompted for, ot
 	   (regexp-opt (mapcar 'symbol-name (jb-defined-symbols filebuf)))
 	   "\\_>")))
 
-;; TODO: allow numeric prefix keys to affect to control NLINES arg of occur.
+;; TODO: allow numeric prefix keys to control NLINES arg of occur.
 (defun jb-symbols-occur (filebuf)
   "Find occurrences in current buffer of symbols defined in file or buffer FILEBUF.
 If called interactively with a prefix arg then a buffer will be prompted for, otherwise a file."
-  (interactive (list (if current-prefix-arg
-			 (get-buffer (read-buffer "Buffer: "))
-		       (read-file-name "Lisp file: " (car package-directory-list) nil t))))
-  (occur (jb-make-symbols-rx filebuf)))
+  (interactive (jb-prompt-lisp-code))
+  (occur (jb-make-symbols-rx filebuf)
+	 (if (numberp current-prefix-arg)
+	     (prefix-numeric-value current-prefix-arg))))
 
 (defun jb-symbols-search (filebuf &optional bound noerror count)
   "Search the current buffer for symbols defined in file or buffer FILEBUF.
 If called interactively with a prefix arg then a buffer will be prompted for, otherwise a file.
 Other args are same as for `re-search-forward'."
-  (interactive (list (if current-prefix-arg
-			 (get-buffer (read-buffer "Buffer: "))
-		       (read-file-name "Lisp file: "
-				       (car package-directory-list) nil t))))
+  (interactive (jb-prompt-lisp-code))
   (let ((rx (jb-make-symbols-rx filebuf)))
     (isearch-update-ring rx t)
     (if (called-interactively-p 'interactive)
